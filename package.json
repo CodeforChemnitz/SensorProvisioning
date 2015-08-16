@@ -1,0 +1,39 @@
+{
+  "name": "sensorconfig",
+  "productName": "Sensorconfig",
+  "version": "0.0.0",
+  "description": "My fantabulous app",
+  "license": "MIT",
+  "main": "app.js",
+  "repository": "ronnyhartenstein/sensorconfig",
+  "author": {
+    "name": "Ronny Hartenstein",
+    "email": "ronny@rh-flow.de",
+    "url": "localhost"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . $npm_package_productName --out=dist --ignore=dist --prune --asar --all --version=0.30.0"
+  },
+  "files": [
+    "index.js",
+    "index.html",
+    "index.css"
+  ],
+  "keywords": [
+    "electron-app"
+  ],
+  "dependencies": {
+    "electron-debug": "^0.1.1",
+    "request": "~2.58.0",
+    "underscore": "^1.8.3",
+    "jquery": "^2.0.0"
+  },
+  "devDependencies": {
+    "electron-packager": "^5.0.0",
+    "electron-prebuilt": "^0.30.0"
+  }
+}

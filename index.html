@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Electron boilerplate</title>
+		<link rel="stylesheet" href="index.css">
+		<script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script>
+		<script type="text/javascript" src="index.js"></script>
+		<script type="text/javascript" src="menu.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<header>
+				<h1>Electron <script>document.write(process.versions['electron'])</script></h1>
+			</header>
+			<section class="main">
+			on Node <script>document.write(process.version)</script>
+			<input type="text" name="message" id="message">
+			
+			</section>
+			<footer></footer>
+		</div>
+	</body>
+</html>

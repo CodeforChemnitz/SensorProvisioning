@@ -1,0 +1,11 @@
+{
+  "name": "nwtaskify",
+  "main": "./index.html",
+  "version": "0.1.0",
+  "window": {
+    "title": "nwtaskify",
+    "toolbar": false,
+    "width": 900,
+    "height": 700
+  }
+}

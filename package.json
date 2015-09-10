@@ -1,0 +1,21 @@
+{
+  "name": "SensorProvisioning",
+  "version": "0.1.0",
+  "description": "SensorProvisioning",
+  "main": "./app/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sensor, provisioning"
+  ],
+  "author": "CodeforChemnitz",
+  "license": "MIT",
+  "devDependencies": {
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "nw-builder": "^2.0.2",
+    "rename": "^1.0.3",
+    "run-sequence": "^1.1.2"
+  }
+}

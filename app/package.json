@@ -1,0 +1,11 @@
+{
+  "name": "SensorProvisioning",
+  "main": "./index.html",
+  "version": "0.1.0",
+  "window": {
+    "title": "SensorProvisioning",
+    "toolbar": true,
+    "width": 900,
+    "height": 700
+  }
+}

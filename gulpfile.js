@@ -9,7 +9,7 @@ gulp.task("clean", function(callback) {
 });
 
 gulp.task("copy-vendor-js", function() {
-  return gulp.src(["bower_components/angular/angular.min.js", "bower_components/jquery/dist/jquery.min.js", "bower_components/bootstrap/dist/js/bootstrap.min.js"])
+  return gulp.src(["bower_components/jquery/dist/jquery.min.js", "bower_components/bootstrap/dist/js/bootstrap.min.js"])
           .pipe(gulp.dest("app/scripts/vendor"));
 });
 

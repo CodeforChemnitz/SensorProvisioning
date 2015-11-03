@@ -1,3 +1,6 @@
-.strike{
-  text-decoration: line-through;
+.devicestatus {
+  background-color: red;
+}
+.devicestatus.reachable {
+  background-color: green;
 }

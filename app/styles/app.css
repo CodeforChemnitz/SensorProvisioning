@@ -4,3 +4,13 @@
 .devicestatus.reachable {
   background-color: green;
 }
+
+
+#alertbox {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+#alertbox .alert {
+  width: 300px;
+}

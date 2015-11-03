@@ -1,8 +1,47 @@
 (function(){
   "use strict";
 
-  //$('#devicestatus').toggleClass('reachable').html('YO');
-  start_ping();
+  $('#sensor-wlan-ssid').html('sensor');
+  $('#sensor-wlan-pwd').html('bla');
+  $('#sensor-ip').html('178.169.0.1');
+
+
+    //$('#devicestatus').toggleClass('reachable').html('YO');
+    start_ping();
+
+    // debug window
+    require('nw.gui').Window.get().showDevTools();
+
+    var $step1 = $('.row.step1');
+    var $step2 = $('.row.step2');
+    var $step3 = $('.row.step3');
+
+    $('.step1 .weiter').on('click', function() {
+      // TODO muss wieder raus, umschalten automatisch wenn IP erreicht wird (und Sensor antwortet)
+      $step1.fadeOut(function() { $step2.fadeIn(); });
+    });
+    $('.step2 .weiter').on('click', function() {
+      // TODO WLAN-SSID+Pwd speichern zum Sensor
+      status('info','Übertrage Daten zum Sensor...');
+      window.setTimeout(function() {
+        status('success','Einstellungen wurden übertragen und gespeichert.');
+        $step2.fadeOut(function() { $step3.fadeIn(); });
+      }, 1000);
+
+    });
+    $('.step2 .zurueck').on('click', function() {
+      $step2.fadeOut(function() { $step1.fadeIn(); });
+    });
+    $('.step3 .speichern').on('click', function() {
+      // TODO Sensoren-Einstellungen speichern
+      status('info','Übertrage Daten zum Sensor...');
+      window.setTimeout(function() {
+        status('success','Einstellungen wurden übertragen und gespeichert.');
+      }, 1000);
+    });
+    $('.step3 .zurueck').on('click', function() {
+      $step3.fadeOut(function() { $step2.fadeIn(); });
+    });
 })();
 
 function ping_sensor(host) {
@@ -19,6 +58,12 @@ function ping_sensor(host) {
 }
 
 function start_ping() {
-  host = 'heise.de';
+  host = $('#sensor-ip').html();
   ping_sensor(host);
+}
+
+function status(status, message) {
+  $status = $('#alertbox');
+  $status.show().html('<div class="alert alert-' + status + '" role="alert">' + message + '</div>');
+  window.setTimeout(function() { $status.fadeOut('slow'); }, 1000);
 }

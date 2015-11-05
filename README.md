@@ -1,6 +1,13 @@
 # SensorProvisioning
 Provisioning of a sensor node. Mainly to init the Wifi with SSID and password.
 
+## Install Dependencies
+```
+npm install && bower install
+cd app && npm install
+
+```
+
 ## Workflow
 1. connect to sensor
 2. enter network connection (list available networks, enter credentials)

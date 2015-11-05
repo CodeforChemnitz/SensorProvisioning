@@ -12,7 +12,7 @@
     // debug window
     $('#show-debugbox').on('click', function() {
       require('nw.gui').Window.get().showDevTools();
-    })
+    });
 
     workflow_step1();
     workflow_step2();

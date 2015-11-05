@@ -6,6 +6,8 @@ Provisioning of a sensor node. Mainly to init the Wifi with SSID and password.
 2. enter network connection (list available networks, enter credentials)
 3. list available pins - specify sensors that are supported
 
+see https://git.dinotools.org/poc/SensorNodeESP8266/about/
+
 ## App platform: NW.js
 - Homepage http://nwjs.io/
 - Docu: https://github.com/nwjs/nw.js

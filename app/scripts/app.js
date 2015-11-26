@@ -3,8 +3,8 @@
 
   $('#sensor-wlan-ssid').html('sensor');
   $('#sensor-wlan-pwd').html('bla');
-  $('#sensor-ip').html('178.169.0.1');
-
+  $('#sensor-ip').html('localhost');
+  $('#sensor-port').html('5000');
 
     //$('#devicestatus').toggleClass('reachable').html('YO');
     start_ping();

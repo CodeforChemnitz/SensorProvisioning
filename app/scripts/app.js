@@ -3,7 +3,7 @@
 
   $('#sensor-wlan-ssid').html('sensor');
   $('#sensor-wlan-pwd').html('bla');
-  $('#sensor-ip').html('localhost');
+  $('#sensor-ip').html('localhost'); //178.169.0.1');
   $('#sensor-port').html('5000');
 
     //$('#devicestatus').toggleClass('reachable').html('YO');
@@ -44,15 +44,33 @@ function workflow_step2() {
   var $step2 = $('.row.step2');
   var $step3 = $('.row.step3');
   $('.step2 .weiter').on('click', function() {
-    alertbox('info','Übertrage Daten zum Sensor...', false);
-    // TODO WLAN-SSID+Pwd speichern zum Sensor
-    window.setTimeout(function() {
+    // 1. validate if all data is filled
+    check_step2_filled().then(function() {
+      alertbox('info','Übertrage Daten zum Sensor...', false);
+      // TODO WLAN-SSID+Pwd speichern zum Sensor
+      return send_step2_data();
+    }).then(function() {
       alertbox('success','Einstellungen wurden übertragen und gespeichert.');
       $step2.fadeOut(function() { $step3.fadeIn(); });
-    }, 1000);
+    }).catch(function(error) {
+      alertbox('warn','Fehler: ' + error);
+    });
   });
   $('.step2 .zurueck').on('click', function() {
     $step2.fadeOut(function() { $step1.fadeIn(); });
+  });
+}
+
+function check_step2_filled() {
+  return new Promise(function(f, r) {
+    //r("MEEP");
+    f(true);
+  });
+}
+
+function send_step2_data() {
+  return new Promise(function(f, r) {
+    f(true);
   });
 }
 
@@ -72,7 +90,7 @@ function workflow_step3() {
 }
 
 function ping_sensor(host) {
-  console.log("ping sensor");
+  //console.log("ping sensor");
   ping = require('ping');
   ping.sys.probe(host, function (status) {
     var $stat = $('#devicestatus');

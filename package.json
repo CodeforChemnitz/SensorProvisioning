@@ -16,7 +16,8 @@
     "gulp": "^3.9.0",
     "nw-builder": "^2.0.2",
     "rename": "^1.0.3",
-    "run-sequence": "^1.1.2"
+    "run-sequence": "^1.1.2",
+    "nw": "^0.12.3"
   },
   "dependencies": {
     "bootstrap": "~3.3.5"

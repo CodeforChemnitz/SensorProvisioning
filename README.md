@@ -15,13 +15,27 @@ cd app && npm install
 
 Build the NW.js app.
 
-    gulp build
+```
+gulp build
+```
 
 You'll find the apps here:
 
 - **Mac:** build/SensorProvisioning/osx64/SensorProvisioning.app
 - **Win:** build/SensorProvisioning/win32/SensorProvisioning.exe
 - **Linux:** build/SensorProvisioning/linux64/SensorProvisioning
+
+## Debugging
+
+We can use [nw](https://www.npmjs.com/package/nw) to start NW.js directly.
+
+```
+cd app
+nw
+```
+
+Open Debugbox and hit F5 for reload :)
+
 
 
 ## Workflow
@@ -37,3 +51,8 @@ see https://git.dinotools.org/poc/SensorNodeESP8266/about/
 - Yeoman generator: https://github.com/Dica-Developer/generator-node-webkit
 - other gen: https://www.npmjs.com/package/generator-nwjs-material
 - a little bit out-dated gen.: https://github.com/Anonyfox/node-webkit-hipster-seed
+
+
+## Theme
+
+Bootswatch Lumen: http://bootswatch.com/lumen/

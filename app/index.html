@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
-    <link rel="stylesheet" href="styles/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/vendor/bootstrap.css">
     <link rel="stylesheet" href="styles/app.css">
   </head>
   <body>
@@ -12,7 +12,7 @@
     <div class="container">
       <div class="row ueberschrift">
         <div class="col-md-6 col-md-offset-3">
-          <h1>Sensor-Konfiguration</h1>
+          <h1>Sensor-MEEP-Konfiguration</h1>
 
           <div id="alertbox"></div>
         </div>
@@ -59,14 +59,7 @@
               </div>
               <div class="form-group">
                 <label for="wifi">Deine WLAN-SSID</label>
-                <select class="form-control" id="wifi">
-                  <!-- TODO -->
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
+                <input type="wifi" class="form-control" id="wifi" placeholder="WLAN-SSID">
               </div>
               <div class="form-group">
                 <label for="wifi-enc">WLAN-Verschlüsselung</label>
@@ -83,8 +76,10 @@
               </div>
             </div>
 
-            <div class="btn btn-primary weiter">SPEICHERN UND WEITER</div>
-            <div class="btn btn-default zurueck">ZURÜCK</div>
+            <div class="col-lg-12">
+              <div class="btn btn-primary weiter">SPEICHERN UND WEITER</div>
+              <div class="btn btn-default zurueck">ZURÜCK</div>
+            </div>
           </form>
         </div>
 

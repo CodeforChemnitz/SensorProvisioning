@@ -1,5 +1,20 @@
 # SensorProvisioning
+
 Provisioning of a sensor node. Mainly to init the Wifi with SSID and password.
+
+## Build
+
+Install Node packages and build the NW.js app.
+
+    npm install
+    gulp build
+
+Then you'll find the apps here:
+
+- **Mac:** build/SensorProvisioning/osx64/SensorProvisioning.app
+- **Win:** build/SensorProvisioning/win32/SensorProvisioning.exe
+- **Linux:** build/SensorProvisioning/linux64/SensorProvisioning
+
 
 ## Workflow
 1. connect to sensor

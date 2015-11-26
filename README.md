@@ -2,14 +2,22 @@
 
 Provisioning of a sensor node. Mainly to init the Wifi with SSID and password.
 
-## Build
+## Install Dependencies
 
-Install Node packages and build the NW.js app.
+Install Node and bower packages.
 
-    npm install
+```
+npm install && bower install
+cd app && npm install
+```
+
+## Build NW.js apps
+
+Build the NW.js app.
+
     gulp build
 
-Then you'll find the apps here:
+You'll find the apps here:
 
 - **Mac:** build/SensorProvisioning/osx64/SensorProvisioning.app
 - **Win:** build/SensorProvisioning/win32/SensorProvisioning.exe

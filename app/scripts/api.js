@@ -5,7 +5,7 @@ http://rapiddg.com/blog/calling-rest-api-nodejs-script
 */
 
 var querystring = require('querystring');
-var https = require('https');
+var http = require('http');
 
 api = {
   set_wifi_sta_ssid: function(ssid) {
@@ -47,7 +47,7 @@ function performRequest(endpoint, method, data, success) {
     headers: headers
   };
 
-  var req = https.request(options, function(res) {
+  var req = http.request(options, function(res) {
     //res.setEncoding('utf-8');
 
     var responseString = '';
@@ -57,9 +57,9 @@ function performRequest(endpoint, method, data, success) {
     });
 
     res.on('end', function() {
-      console.log(responseString);
-      var responseObject = JSON.parse(responseString);
-      success(responseObject);
+      //console.log(responseString);
+      //var responseObject = JSON.parse(responseString);
+      success(responseString);
     });
   });
 

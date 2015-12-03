@@ -9,7 +9,7 @@ window.onerror = function(message, url, lineNumber) {
 
   $('#sensor-wlan-ssid').html('sensor');
   $('#sensor-wlan-pwd').html('bla');
-  $('#sensor-ip').html('localhost'); //178.169.0.1');
+  $('#sensor-ip').html('192.168.23.203'); //178.169.0.1');
   $('#sensor-port').html('5001');
 
     //$('#devicestatus').toggleClass('reachable').html('YO');
@@ -57,7 +57,8 @@ function workflow_step2() {
       // TODO WLAN-SSID+Pwd speichern zum Sensor
       return send_step2_data();
 
-    }).then(function() {
+    }).then(function(messages) {
+      console.log("success", messages);
       alertbox('success','Einstellungen wurden übertragen und gespeichert.');
       $step2.fadeOut(function() { $step3.fadeIn(); });
 
@@ -88,7 +89,7 @@ function check_step2_filled() {
 
 function send_step2_data() {
   return Promise.all([
-    //api.set_wifi_sta_ssid($('#wifi-ssid').val()),
+    api.set_wifi_sta_ssid($('#wifi-ssid').val()),
     api.set_wifi_sta_password($('#wifi-pass').val())
   ]);
 }

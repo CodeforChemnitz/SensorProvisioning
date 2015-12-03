@@ -59,16 +59,18 @@
               </div>
               <div class="form-group">
                 <label for="wifi">Deine WLAN-SSID</label>
-                <input type="wifi" class="form-control" id="wifi" placeholder="WLAN-SSID">
+                <input type="text" class="form-control" id="wifi-ssid" placeholder="WLAN-SSID">
+                <ul id="wifi-ssid-list"></ul>
               </div>
               <div class="form-group">
                 <label for="wifi-enc">WLAN-Verschlüsselung</label>
-                <select class="form-control" id="wifi-enc">
+                <input type="text" disabled="disabled" class="form-control" value="WPA2">
+                <!--<select class="form-control" id="wifi-enc">
                   <option>Keine</option>
                   <option>WEP</option>
                   <option>WPA</option>
                   <option>WPA2</option>
-                </select>
+                </select>-->
               </div>
               <div class="form-group">
                 <label for="wifi-pass">WLAN-Passwort</label>
@@ -140,6 +142,7 @@
 
     <script type="text/javascript" src="scripts/vendor/jquery.min.js"></script>
     <script type="text/javascript" src="scripts/vendor/bootstrap.min.js"></script>
+    <script type="text/javascript" src="scripts/api.js"></script>
     <script type="text/javascript" src="scripts/app.js"></script>
   </body>
 </html>

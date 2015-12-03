@@ -1,10 +1,16 @@
+
+window.onerror = function(message, url, lineNumber) {
+    console.error(message,url,lineNumber);
+    return true; // prevents browser error messages
+};
+
 (function(){
   "use strict";
 
   $('#sensor-wlan-ssid').html('sensor');
   $('#sensor-wlan-pwd').html('bla');
   $('#sensor-ip').html('localhost'); //178.169.0.1');
-  $('#sensor-port').html('5000');
+  $('#sensor-port').html('5001');
 
     //$('#devicestatus').toggleClass('reachable').html('YO');
     start_ping();
@@ -44,16 +50,19 @@ function workflow_step2() {
   var $step2 = $('.row.step2');
   var $step3 = $('.row.step3');
   $('.step2 .weiter').on('click', function() {
+
     // 1. validate if all data is filled
     check_step2_filled().then(function() {
       alertbox('info','Übertrage Daten zum Sensor...', false);
       // TODO WLAN-SSID+Pwd speichern zum Sensor
       return send_step2_data();
+
     }).then(function() {
       alertbox('success','Einstellungen wurden übertragen und gespeichert.');
       $step2.fadeOut(function() { $step3.fadeIn(); });
+
     }).catch(function(error) {
-      alertbox('warn','Fehler: ' + error);
+      alertbox('warning','Fehler: ' + error);
     });
   });
   $('.step2 .zurueck').on('click', function() {
@@ -62,16 +71,26 @@ function workflow_step2() {
 }
 
 function check_step2_filled() {
+  // TODO ohne Promise
   return new Promise(function(f, r) {
-    //r("MEEP");
+    if ($('#wifi-pass').val().length == 0) {
+      r("Passwort leer");
+    }
+    if ($('#wifi-pass').val().length < 8) {
+      r("Passwort zu kurz (< 8 Zeichen)");
+    }
+    if ($('#wifi-ssid').val().length == 0) {
+      r("SSID leer");
+    }
     f(true);
   });
 }
 
 function send_step2_data() {
-  return new Promise(function(f, r) {
-    f(true);
-  });
+  return Promise.all([
+    //api.set_wifi_sta_ssid($('#wifi-ssid').val()),
+    api.set_wifi_sta_password($('#wifi-pass').val())
+  ]);
 }
 
 function workflow_step3() {

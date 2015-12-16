@@ -12,7 +12,7 @@
     <div class="container">
       <div class="row ueberschrift">
         <div class="col-md-6 col-md-offset-3">
-          <h1>Sensor-MEEP-Konfiguration</h1>
+          <h1>Sensor-Konfiguration</h1>
 
           <div id="alertbox"></div>
         </div>
@@ -54,17 +54,21 @@
 
             <form>
               <div class="form-group">
+                <label for="name">Dein Name</label>
+                <input type="name" class="form-control" id="name" placeholder="Name">
+              </div>
+              <div class="form-group">
                 <label for="email">Deine Email-Adresse</label>
                 <input type="email" class="form-control" id="email" placeholder="Email-Adresse">
               </div>
               <div class="form-group">
                 <label for="wifi">Deine WLAN-SSID</label>
                 <input type="text" class="form-control" id="wifi-ssid" placeholder="WLAN-SSID">
-                <ul id="wifi-ssid-list"></ul>
+                SSIDs gefunden: <span id="wifi-ssid-list"></span>
               </div>
               <div class="form-group">
                 <label for="wifi-enc">WLAN-Verschlüsselung</label>
-                <input type="text" disabled="disabled" class="form-control" value="WPA2">
+                <input type="text" disabled="disabled" id="wifi-enc"class="form-control" value="WPA2">
                 <!--<select class="form-control" id="wifi-enc">
                   <option>Keine</option>
                   <option>WEP</option>
@@ -77,12 +81,12 @@
                 <input type="password" class="form-control" id="wifi-pass" placeholder="WLAN-Passwort">
               </div>
             </div>
-
-            <div class="col-lg-12">
-              <div class="btn btn-primary weiter">SPEICHERN UND WEITER</div>
-              <div class="btn btn-default zurueck">ZURÜCK</div>
-            </div>
           </form>
+
+          <div class="col-lg-12">
+            <div class="btn btn-primary weiter">SPEICHERN UND WEITER</div>
+            <div class="btn btn-default zurueck">ZURÜCK</div>
+          </div>
         </div>
 
 
@@ -90,7 +94,7 @@
 
         <div class="row step3" style="display:none;">
           <div class="col-md-6 col-md-offset-3">
-            <h2>Sensoren einrichten</h2>
+              <h2>Sensoren einrichten</h2>
 
               <form>
                 <div class="form-group">
@@ -128,19 +132,36 @@
                     </tbody>
                   </table>
                 </div>
-
-                <div class="btn btn-primary speichern">SPEICHERN</div>
-                <div class="btn btn-default zurueck">ZURÜCK</div>
               </form>
+
+              <div class="btn btn-primary speichern">SPEICHERN IN SENSOR</div>
+              <div class="btn btn-default zurueck">ZURÜCK</div>
+              <div class="btn btn-default restart">RESTART SENSOR</div>
+
+              <h2>Sensor-API Access-Point</h2>
+              <div class="form-group">
+                <form>
+                  <div class="form-group">
+                    <label for="api_hostname">Hostname</label>
+                    <input type="text" class="form-control" id="api-hostname" placeholder="Hostname">
+                  </div>
+                  <div class="form-group">
+                    <label for="api_port">Port</label>
+                    <input type="number" class="form-control" id="api-port" placeholder="Port">
+                  </div>
+                </form>
+              </div>
+              <div class="btn btn-primary speichern_api">SETZEN</div>
+
             </div>
           </div>
-
 
 
           <div id="show-debugbox" class="btn btn-link">debugbox</div>
         </div>
 
     <script type="text/javascript" src="scripts/vendor/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/vendor/underscore-min.js"></script>
     <script type="text/javascript" src="scripts/vendor/bootstrap.min.js"></script>
     <script type="text/javascript" src="scripts/api.js"></script>
     <script type="text/javascript" src="scripts/app.js"></script>

@@ -45,6 +45,10 @@ Open Debugbox and hit F5 for reload :)
 
 see https://git.dinotools.org/poc/SensorNodeESP8266/about/
 
+
+
+
+
 ## App platform: NW.js
 - Homepage http://nwjs.io/
 - Docu: https://github.com/nwjs/nw.js
@@ -52,7 +56,12 @@ see https://git.dinotools.org/poc/SensorNodeESP8266/about/
 - other gen: https://www.npmjs.com/package/generator-nwjs-material
 - a little bit out-dated gen.: https://github.com/Anonyfox/node-webkit-hipster-seed
 
-
 ## Theme
 
 Bootswatch Lumen: http://bootswatch.com/lumen/
+
+## Call the REST
+
+- http://rapiddg.com/blog/calling-rest-api-nodejs-script
+- http://stackoverflow.com/questions/5643321/how-to-make-remote-rest-call-inside-node-js-any-curl
+- http://blog.nodejitsu.com/jsdom-jquery-in-5-lines-on-nodejs/

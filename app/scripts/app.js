@@ -9,7 +9,7 @@ window.onerror = function(message, url, lineNumber) {
 
   $('#sensor-wlan-ssid').html('sensor');
   $('#sensor-wlan-pwd').html('bla');
-  $('#sensor-ip').html('192.168.23.203'); //178.169.0.1');
+  $('#sensor-ip').html('localhost'); //192.168.23.203 178.169.0.1
   $('#sensor-port').html('5001');
 
     //$('#devicestatus').toggleClass('reachable').html('YO');
@@ -24,6 +24,8 @@ window.onerror = function(message, url, lineNumber) {
     workflow_step2();
     workflow_step3();
 
+    init_step1();
+
 })();
 
 function workflow_step1() {
@@ -31,8 +33,12 @@ function workflow_step1() {
   var $step2 = $('.row.step2');
   $('.step1 .weiter').on('click', function() {
     // TODO muss wieder raus, umschalten automatisch wenn IP erreicht wird (und Sensor antwortet)
-    $step1.fadeOut(function() { $step2.fadeIn(); });
+    $step1.fadeOut(function() { $step2.fadeIn('slow', function() { init_step2(); }); });
   });
+}
+
+function init_step1() {
+
 }
 
 was_sensor_detected = false;
@@ -41,7 +47,7 @@ function sensor_detected() {
   alertbox('success','Sensor gefunden!');
   var $step1 = $('.row.step1');
   var $step2 = $('.row.step2');
-  $step1.fadeOut(function() { $step2.fadeIn(); });
+  $step1.fadeOut(function() { $step2.fadeIn('slow', function() { init_step2(); }); });
   was_sensor_detected = true;
 }
 
@@ -58,40 +64,72 @@ function workflow_step2() {
       return send_step2_data();
 
     }).then(function(messages) {
-      console.log("success", messages);
-      alertbox('success','Einstellungen wurden übertragen und gespeichert.');
-      $step2.fadeOut(function() { $step3.fadeIn(); });
+      alertbox('success','Einstellungen wurden übertragen und gespeichert. ('+messages.join(', ')+')');
+      $step2.fadeOut(function() { $step3.fadeIn('slow', function() { init_step3(); }); });
 
     }).catch(function(error) {
       alertbox('warning','Fehler: ' + error);
     });
   });
   $('.step2 .zurueck').on('click', function() {
-    $step2.fadeOut(function() { $step1.fadeIn(); });
+    $step2.fadeOut(function() { $step1.fadeIn('slow', function() { init_step1(); }); });
+  });
+}
+
+function init_step2() {
+  // read visible SSIDs from sensor
+  api.get_wifi_ssids().then(function(ssids) {
+    var list = $('#wifi-ssid-list');
+    _.each(ssids, function(itm) {
+      $('<span class="label label-default">' + itm.ssid + ' (' + itm.crypt + ')</span>')
+        .css({'margin-right': '10px', cursor: 'pointer'})
+        .click(function(){
+          $('#wifi-ssid').val(itm.ssid);
+          $('#wifi-enc').val(itm.crypt);
+        })
+        .appendTo(list);
+    });
+  }).catch(function(error) {
+      alertbox('warning','Fehler: ' + error);
   });
 }
 
 function check_step2_filled() {
-  // TODO ohne Promise
   return new Promise(function(f, r) {
-    if ($('#wifi-pass').val().length == 0) {
-      r("Passwort leer");
+    // register user?
+    if ($('#email').val()) {
+      if ($('#email').val().length == 0) {
+        r("Email leer");
+      }
+      if (!/@/.test($('#email').var())) {
+        r("Email sollte schon ein @ enthalten");
+      }
     }
-    if ($('#wifi-pass').val().length < 8) {
-      r("Passwort zu kurz (< 8 Zeichen)");
-    }
-    if ($('#wifi-ssid').val().length == 0) {
-      r("SSID leer");
+    if ($('#wifi-pass').val() || $('#wifi-ssid').val()) {
+      if ($('#wifi-pass').val().length == 0) {
+        r("Passwort leer");
+      }
+      if ($('#wifi-pass').val().length < 8) {
+        r("Passwort zu kurz (< 8 Zeichen)");
+      }
+      if ($('#wifi-ssid').val().length == 0) {
+        r("SSID leer");
+      }
     }
     f(true);
   });
 }
 
 function send_step2_data() {
-  return Promise.all([
-    api.set_wifi_sta_ssid($('#wifi-ssid').val()),
-    api.set_wifi_sta_password($('#wifi-pass').val())
-  ]);
+  var p = [];
+  if ($('#email').val()) {
+    p.push(api.register($('#name').val(), $('#email').val()));
+  }
+  if ($('#wifi-pass').val() || $('#wifi-ssid').val()) {
+    p.push(api.set_wifi_sta_ssid($('#wifi-ssid').val()));
+    p.push(api.set_wifi_sta_password($('#wifi-pass').val()));
+  }
+  return Promise.all(p);
 }
 
 function workflow_step3() {
@@ -99,16 +137,48 @@ function workflow_step3() {
   var $step3 = $('.row.step3');
   $('.step3 .speichern').on('click', function() {
     alertbox('info','Übertrage Daten zum Sensor...', false);
-    // TODO Sensoren-Einstellungen speichern
-    window.setTimeout(function() {
-      alertbox('success','Einstellungen wurden übertragen und gespeichert.');
-    }, 1000);
+    api.save().then(function(message) {
+      alertbox('success','Einstellungen gespeichert. ('+message+')');
+    }).catch(function(error) {
+      alertbox('warning','Fehler: ' + error);
+    });
+  });
+  $('.step3 .restart').on('click', function() {
+    alertbox('info','Sensor wird neu gestartet...', false);
+    api.restart().then(function(message) {
+      alertbox('info','Warte bis Sensor wieder antwortet. ('+message+')');
+      // TODO ping durchführen bis Sensor wieder da ist, dann Erfolg melden
+    }).catch(function(error) {
+      alertbox('warning','Fehler: ' + error);
+    });
   });
   $('.step3 .zurueck').on('click', function() {
-    $step3.fadeOut(function() { $step2.fadeIn(); });
+    $step3.fadeOut(function() { $step2.fadeIn('slow', function() { init_step2(); }); });
+  });
+
+  $('.step3 .speichern_api').on('click', function() {
+    alertbox('info','Aktualisiere Sensor-API Access-Point...', false);
+    Promise.all([
+      api.set_sensor_api_hostname($('#api-hostname').val()),
+      api.set_sensor_api_port($('#api-port').val())
+    ]).then(function(messages) {
+      alertbox('success','Aktualisierung durchgeführt. (' + messages.join(', ') + ')');
+    });
   });
 }
 
+function init_step3() {
+  api.get_sensor_api_hostname().then(function(hostname) {
+    $('#api-hostname').val(hostname);
+  }).catch(function(error) {
+      alertbox('warning','Fehler: ' + error);
+  });
+  api.get_sensor_api_port().then(function(port) {
+    $('#api-port').val(port);
+  }).catch(function(error) {
+      alertbox('warning','Fehler: ' + error);
+  });
+}
 function ping_sensor(host) {
   //console.log("ping sensor");
   ping = require('ping');

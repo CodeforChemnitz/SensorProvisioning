@@ -59,11 +59,20 @@ api = {
     return new Promise(function(f, r) {
       performRequest('/config/api/port', 'POST', {'port': port}, f);
     });
+  },
+  get_sensor: function(id) {
+    return new Promise(function(f, r) {
+      performRequest('/config/sensor/' + id, 'GET', {}, f, id);
+    });
+  },
+  set_sensor: function(id, type, values) {
+    return new Promise(function(f, r) {
+      performRequest('/config/sensor/' + id, 'POST', {'type': type, 'config': values.join(',')}, f, id);
+    });
   }
-
 }
 
-function performRequest(endpoint, method, data, success) {
+function performRequest(endpoint, method, data, success, extra) {
   var dataString = "";
   var headers = {'X-Sensor-Version': '1'};
 
@@ -95,9 +104,9 @@ function performRequest(endpoint, method, data, success) {
     });
 
     res.on('end', function() {
-      //console.log(responseString);
+      console.log(endpoint, data, " -> ", responseString, extra);
       //var responseObject = JSON.parse(responseString);
-      success(responseString);
+      success(responseString, extra);
     });
   });
 

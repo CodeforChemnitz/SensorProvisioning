@@ -98,7 +98,7 @@
 
               <form>
                 <div class="form-group">
-                  <table class="table table-striped">
+                  <table class="sensors table table-striped">
                     <thead>
                       <tr>
                         <th></th>
@@ -106,37 +106,11 @@
                         <th>Sensor-Wert</th>
                       </tr>
                     </thead>
-                    <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>
-                          <select class="form-control" id="sensor1">
-                            <option>Temperatur</option>
-                            <option>Luftdruck</option>
-                            <option>Luftfeuchtigkeit</option>
-                          </select>
-                        </td>
-                        <td>21°C</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">2</th>
-                        <td>
-                          <select class="form-control" id="sensor2">
-                            <option>Temperatur</option>
-                            <option>Luftdruck</option>
-                            <option selected>Luftfeuchtigkeit</option>
-                          </select>
-                        </td>
-                        <td>64%</td>
-                      </tr>
-                    </tbody>
+                    <tbody></tbody>
                   </table>
                 </div>
               </form>
-
-              <div class="btn btn-primary speichern">SPEICHERN IN SENSOR</div>
-              <div class="btn btn-default zurueck">ZURÜCK</div>
-              <div class="btn btn-default restart">RESTART SENSOR</div>
+              <div class="btn btn-primary speichern_sensors">AKTUALISIEREN</div>
 
               <h2>Sensor-API Access-Point</h2>
               <div class="form-group">
@@ -152,6 +126,11 @@
                 </form>
               </div>
               <div class="btn btn-primary speichern_api">SETZEN</div>
+
+              <hr/>
+              <div class="btn btn-primary speichern">SPEICHERN IN SENSOR</div>
+              <div class="btn btn-default zurueck">ZURÜCK</div>
+              <div class="btn btn-default restart">RESTART SENSOR</div>
 
             </div>
           </div>

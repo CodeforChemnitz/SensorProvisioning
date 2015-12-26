@@ -7,10 +7,10 @@ window.onerror = function(message, url, lineNumber) {
 (function(){
   "use strict";
 
-  $('#sensor-wlan-ssid').html('sensor');
-  $('#sensor-wlan-pwd').html('bla');
-  $('#sensor-ip').html('localhost'); //192.168.23.203 178.169.0.1
-  $('#sensor-port').html('5001');
+  $('#sensor-wlan-ssid').text('sensor');
+  $('#sensor-wlan-pwd').text('bla');
+  $('#sensor-ip').text('localhost'); //192.168.23.203 178.169.0.1
+  $('#sensor-port').text('5001');
 
     //$('#devicestatus').toggleClass('reachable').html('YO');
     start_ping();
@@ -77,6 +77,11 @@ function workflow_step2() {
 }
 
 function init_step2() {
+  // test vals on localhost
+  if ($('#sensor-ip').text() == 'localhost') {
+    $('#wifi-ssid').val('testtest');
+    $('#wifi-pass').val('testtest');
+  }
   // read visible SSIDs from sensor
   api.get_wifi_ssids().then(function(ssids) {
     var list = $('#wifi-ssid-list');
@@ -135,6 +140,16 @@ function send_step2_data() {
 function workflow_step3() {
   var $step2 = $('.row.step2');
   var $step3 = $('.row.step3');
+
+  $('.step3 .speichern_sensors').on('click', function() {
+    alertbox('info','Speichere Sensoren...', false);
+    send_step3_data().then(function(message) {
+      alertbox('success','Einstellungen gespeichert. ('+message+')');
+    }).catch(function(error) {
+      alertbox('warning','Fehler: ' + error);
+    });
+  });
+
   $('.step3 .speichern').on('click', function() {
     alertbox('info','Übertrage Daten zum Sensor...', false);
     api.save().then(function(message) {
@@ -143,6 +158,7 @@ function workflow_step3() {
       alertbox('warning','Fehler: ' + error);
     });
   });
+
   $('.step3 .restart').on('click', function() {
     alertbox('info','Sensor wird neu gestartet...', false);
     api.restart().then(function(message) {
@@ -173,12 +189,50 @@ function init_step3() {
   }).catch(function(error) {
       alertbox('warning','Fehler: ' + error);
   });
+
   api.get_sensor_api_port().then(function(port) {
     $('#api-port').val(port);
   }).catch(function(error) {
       alertbox('warning','Fehler: ' + error);
   });
+
+  // init each sensor configs
+  var row, select,
+    tmpl = _.template('<tr><th scope="active"><input type="checkbox" name="sensor<%- row %>_active" value="1"><th scope="row"><%- row %></th><td scope="select"></td><td><%- current %></td></tr>'),
+    measure = [{type: 1, name: 'Temperatur'},{type: 2, name: 'Luftdruck'},{type: 3, name: 'Luftfeuchtigkeit'}],
+    table = $('.sensors.table tbody'),
+    p = [];
+  for (var id=1; id <= 8; id++) {
+    p.push(api.get_sensor(id));
+  }
+  Promise.all(p).then(function(datas) {
+    _.map(datas, function(data, id, bla) {
+      row = $(tmpl({row: id, current: "10 °C" }));
+      if (data != 'Config not found') {
+        row.find('[scope="active"] input').attr('checked', 'checked');
+      }
+      select = $('<select class="form-control" name="sensor' + id + '_type"></select>');
+      // TODO data.type? then set selected="selected"
+      select.append(_.map(measure, function(n) { return $('<option value="' + n.type + '">' + n.name + '</option>'); }));
+      row.find('[scope="select"]').append(select);
+      table.append(row);
+    });
+  })/*.catch(function(error) {
+    alertbox('warning','Fehler: ' + error);
+  })*/;
 }
+
+
+function send_step3_data() {
+  var p = [];
+  for (var id=1; id <= 8; id++) {
+    var active = $('[name="sensor'+id+'_active"]'),
+      type = $('select[name="sensor'+id+'_type"] option:selected').val();
+    p.push(api.set_sensor(id, {type: type, values: '1'}));
+  }
+  return Promise.all(p);
+}
+
 function ping_sensor(host) {
   //console.log("ping sensor");
   ping = require('ping');

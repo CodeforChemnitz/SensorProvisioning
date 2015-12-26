@@ -1,8 +1,9 @@
 
 #alertbox {
-  position: absolute;
-  right: 0;
-  top: 0;
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  z-index: 99;
 }
 #alertbox .alert {
   width: 300px;

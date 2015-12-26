@@ -8,6 +8,9 @@ function workflow_step1() {
   });
 }
 
+init_step1_done = false;
 function init_step1() {
-
+  if (init_step1_done) return;
+  // good place for more inits..
+  init_step1_done = true;
 }

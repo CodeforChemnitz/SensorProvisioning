@@ -24,7 +24,10 @@ function workflow_step2() {
   });
 }
 
+init_step2_done = false;
 function init_step2() {
+  if (init_step2_done) return;
+
   // test vals on localhost
   if ($('#sensor-ip').text() == 'localhost') {
     $('#wifi-ssid').val('testtest');
@@ -45,6 +48,7 @@ function init_step2() {
   }).catch(function(error) {
       alertbox('warning','Fehler: ' + error);
   });
+  init_step2_done = true;
 }
 
 function check_step2_filled() {

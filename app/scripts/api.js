@@ -35,8 +35,8 @@ api = {
   },
   get_wifi_ssids: function() {
     return new Promise(function(f, r) {
-      performRequest('/info/wifi/ssids', 'GET', {}, function(response) {
-        f($.parseJSON(response));
+      performRequest('/info/wifi/ssids', 'GET', {}, function(data) {
+        f($.parseJSON(data));
       });
     });
   },
@@ -62,17 +62,25 @@ api = {
   },
   get_sensor: function(id) {
     return new Promise(function(f, r) {
-      performRequest('/config/sensor/' + id, 'GET', {}, f, id);
+      performRequest('/config/sensor/' + id, 'GET', {}, function(data) {
+        if (data == 'Config not found') {
+          f({id: id, config: false});
+        } else {
+          f({id: id, config: $.parseJSON(data)});
+        }
+      });
     });
   },
   set_sensor: function(id, type, values) {
     return new Promise(function(f, r) {
-      performRequest('/config/sensor/' + id, 'POST', {'type': type, 'config': values.join(',')}, f, id);
+      performRequest('/config/sensor/' + id, 'POST', {'type': type, 'config': values.join(',')}, function(data) {
+        f({id: id, response: data});
+      });
     });
   }
 }
 
-function performRequest(endpoint, method, data, success, extra) {
+function performRequest(endpoint, method, data, success) {
   var dataString = "";
   var headers = {'X-Sensor-Version': '1'};
 
@@ -104,9 +112,9 @@ function performRequest(endpoint, method, data, success, extra) {
     });
 
     res.on('end', function() {
-      console.log(endpoint, data, " -> ", responseString, extra);
+      console.log(endpoint, data, " -> ", responseString);
       //var responseObject = JSON.parse(responseString);
-      success(responseString, extra);
+      success(responseString);
     });
   });
 
